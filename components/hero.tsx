@@ -153,8 +153,8 @@ export function Hero() {
             <h2 className="font-bold text-foreground text-[23px] md:text-[28px]">
               See If Your Yard Qualifies for Our $7,000 Flat-Rate Package
             </h2>
-            <p className="mt-2 text-muted-foreground leading-relaxed text-[19px] md:text-[24px]">
-              Fill out the form below and we&apos;ll let you know if your yard qualifies and what your options are!
+            <p className="mt-2 text-muted-foreground leading-relaxed text-[19px] md:text-[22px]">
+              Fill out the form below and we&apos;ll let you know if your yard qualifies and what your options are if your property dimensions are different!
             </p>
             
             <div className="mt-4 rounded-xl bg-white p-4" style={{ border: "1px solid #e5edd9" }}>
