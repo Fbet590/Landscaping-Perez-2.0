@@ -149,7 +149,7 @@ export function Hero() {
               See If Your Yard Qualifies for Our $7,000 Flat-Rate Package
             </h2>
             <p className="mt-2 text-muted-foreground leading-relaxed text-[19px] md:text-[24px]">
-              Our $7,000 backyard package is designed for yards that fit specific dimensions. Fill out the form below and we&apos;ll let you know if your yard qualifies and what your options are!
+              Fill out the form below and we&apos;ll let you know if your yard qualifies and what your options are!
             </p>
             
             <div className="mt-4 rounded-xl bg-white p-4" style={{ border: "1px solid #e5edd9" }}>
