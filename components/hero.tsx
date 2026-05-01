@@ -107,7 +107,7 @@ export function Hero() {
       <div className="relative mx-auto flex max-w-7xl flex-col items-start gap-8 px-6 py-10 md:flex-row md:items-center md:justify-between md:py-14">
         <div className="max-w-xl">
           <h1 className="text-balance font-serif font-extrabold leading-tight text-background" style={{ fontSize: "40px" }}>
-            Skip the Quotes. Know the Price. Build the Backyard You Want.
+            Skip the Quotes. Know the Price. <br /> Build the Backyard You Want.
           </h1>
           <p className="mt-3 text-lg font-medium text-background/90">
             Premium turf, Phoenix pavers, decorative gravel, and curated plants.
