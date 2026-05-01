@@ -107,7 +107,7 @@ export function Hero() {
       <div className="relative mx-auto flex max-w-7xl flex-col items-start gap-8 px-6 py-10 md:flex-row md:items-center md:justify-between md:py-14">
         <div className="max-w-xl">
           <h1 className="text-balance font-serif font-extrabold leading-tight text-background text-[45px] md:text-[50px]">
-            Skip the Quotes. Know the Price. <br /> Upgrade with Our $7,000 Package
+            Skip the Quotes. Know the Price. <br /><span className="mt-2 inline-block">Upgrade with Our $7,000 Package</span>
           </h1>
           <div className="mt-6 flex flex-col gap-3">
             <div className="flex items-center gap-2.5">
@@ -135,17 +135,19 @@ export function Hero() {
               <span className="font-medium text-background text-[19px] md:text-[24px]">Curated Plants</span>
             </div>
           </div>
-          <a
-            href="#quote"
+          <button
+            onClick={() => {
+              document.getElementById('eligibility-form')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            }}
             className="mt-6 inline-block rounded-md px-6 py-3 font-semibold uppercase text-primary-foreground transition-colors hover:opacity-90 text-[19px] md:text-[24px]"
             style={{ backgroundColor: "#85BF23" }}
           >
             CHECK MY ELIGIBILITY →
-          </a>
+          </button>
         </div>
 
         {/* Form section with package info */}
-        <div className="flex w-full max-w-sm flex-col gap-4">
+        <div id="eligibility-form" className="flex w-full max-w-sm flex-col gap-4">
           {/* $7,000 Package Info Card */}
           <div className="rounded-2xl p-5" style={{ backgroundColor: "#f5f9f0", border: "1px solid #d4e8c2" }}>
             <h2 className="font-bold text-foreground text-[23px] md:text-[28px]">
