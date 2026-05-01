@@ -107,7 +107,7 @@ export function Hero() {
       <div className="relative mx-auto flex max-w-7xl flex-col items-start gap-8 px-6 py-10 md:flex-row md:items-center md:justify-between md:py-14">
         <div className="max-w-xl">
           <h1 className="text-balance font-serif font-extrabold leading-tight text-background text-[45px] md:text-[50px]">
-            Skip the Quotes. Know the Price. <br /><span className="mt-2 inline-block">Upgrade with Our $7,000 Package</span>
+            Skip the Quotes. Know the Price. <br /><span className="mt-2 inline-block" style={{ fontFamily: '"Poppins", sans-serif', fontWeight: 800 }}>Upgrade with Our $7,000 Package</span>
           </h1>
           <div className="mt-6 flex flex-col gap-3">
             <div className="flex items-center gap-2.5">
