@@ -106,10 +106,10 @@ export function Hero() {
 
       <div className="relative mx-auto flex max-w-7xl flex-col items-start gap-8 px-6 py-10 md:flex-row md:items-center md:justify-between md:py-14">
         <div className="max-w-xl">
-          <h1 className="text-balance font-serif font-extrabold leading-tight text-background" style={{ fontSize: "50px" }}>
+          <h1 className="text-balance font-serif font-extrabold leading-tight text-background text-[45px] md:text-[50px]">
             Skip the Quotes. Know the Price. <br /> Build the Backyard You Want.
           </h1>
-          <p className="mt-3 font-medium text-background/90" style={{ fontSize: "28px" }}>
+          <p className="mt-3 font-medium text-background/90 text-[23px] md:text-[28px]">
             Premium Turf, Phoenix Pavers, Decorative gravel, and Curated plants.
           </p>
           <div className="mt-6 flex flex-col gap-3">
@@ -117,25 +117,25 @@ export function Hero() {
               <span className="flex size-5 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: "#85BF23" }}>
                 <Check className="size-3 text-white" strokeWidth={3} />
               </span>
-              <span className="font-medium text-background" style={{ fontSize: "24px" }}>Artificial Turf Installation</span>
+              <span className="font-medium text-background text-[19px] md:text-[24px]">Artificial Turf Installation</span>
             </div>
             <div className="flex items-center gap-2.5">
               <span className="flex size-5 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: "#85BF23" }}>
                 <Check className="size-3 text-white" strokeWidth={3} />
               </span>
-              <span className="font-medium text-background" style={{ fontSize: "24px" }}>Pavers</span>
+              <span className="font-medium text-background text-[19px] md:text-[24px]">Pavers</span>
             </div>
             <div className="flex items-center gap-2.5">
               <span className="flex size-5 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: "#85BF23" }}>
                 <Check className="size-3 text-white" strokeWidth={3} />
               </span>
-              <span className="font-medium text-background" style={{ fontSize: "24px" }}>Full Backyard Remodels</span>
+              <span className="font-medium text-background text-[19px] md:text-[24px]">Full Backyard Remodels</span>
             </div>
           </div>
           <a
             href="#quote"
-            className="mt-6 inline-block rounded-md px-6 py-3 font-semibold uppercase text-primary-foreground transition-colors hover:opacity-90"
-            style={{ backgroundColor: "#85BF23", fontSize: "24px" }}
+            className="mt-6 inline-block rounded-md px-6 py-3 font-semibold uppercase text-primary-foreground transition-colors hover:opacity-90 text-[19px] md:text-[24px]"
+            style={{ backgroundColor: "#85BF23" }}
           >
             CHECK MY ELIGIBILITY →
           </a>
@@ -145,33 +145,33 @@ export function Hero() {
         <div className="flex w-full max-w-sm flex-col gap-4">
           {/* $7,000 Package Info Card */}
           <div className="rounded-2xl p-5" style={{ backgroundColor: "#f5f9f0", border: "1px solid #d4e8c2" }}>
-            <h2 className="font-bold text-foreground" style={{ fontSize: "28px" }}>
+            <h2 className="font-bold text-foreground text-[23px] md:text-[28px]">
               See If Your Yard Qualifies for Our $7,000 Flat-Rate Package
             </h2>
-            <p className="mt-2 text-muted-foreground leading-relaxed" style={{ fontSize: "24px" }}>
+            <p className="mt-2 text-muted-foreground leading-relaxed text-[19px] md:text-[24px]">
               Our $7,000 backyard package is designed for yards that fit specific dimensions. Fill out the form below and we&apos;ll let you know if your yard qualifies and what your options are!
             </p>
             
             <div className="mt-4 rounded-xl bg-white p-4" style={{ border: "1px solid #e5edd9" }}>
-              <p className="font-semibold text-foreground mb-3" style={{ fontSize: "24px" }}>
+              <p className="font-semibold text-foreground mb-3 text-[19px] md:text-[24px]">
                 {"What's Included in the $7,000 Package:"}
               </p>
               <div className="flex flex-col gap-2">
                 <div className="flex items-start gap-2">
                   <Check className="size-4 mt-0.5 shrink-0" style={{ color: "#85BF23" }} />
-                  <span className="text-foreground" style={{ fontSize: "24px" }}>300 sq ft Premium 104oz Turf — the highest quality artificial grass on the market</span>
+                  <span className="text-foreground text-[19px] md:text-[24px]">300 sq ft Premium 104oz Turf — the highest quality artificial grass on the market</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Check className="size-4 mt-0.5 shrink-0" style={{ color: "#85BF23" }} />
-                  <span className="text-foreground" style={{ fontSize: "24px" }}>300 sq ft Phoenix Pavers</span>
+                  <span className="text-foreground text-[19px] md:text-[24px]">300 sq ft Phoenix Pavers</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Check className="size-4 mt-0.5 shrink-0" style={{ color: "#85BF23" }} />
-                  <span className="text-foreground" style={{ fontSize: "24px" }}>10 Tons Decorative Gravel</span>
+                  <span className="text-foreground text-[19px] md:text-[24px]">10 Tons Decorative Gravel</span>
                 </div>
                 <div className="flex items-start gap-2">
                   <Check className="size-4 mt-0.5 shrink-0" style={{ color: "#85BF23" }} />
-                  <span className="text-foreground" style={{ fontSize: "24px" }}>10 Plants (5 Gallon Each)</span>
+                  <span className="text-foreground text-[19px] md:text-[24px]">10 Plants (5 Gallon Each)</span>
                 </div>
               </div>
             </div>
@@ -192,7 +192,7 @@ export function Hero() {
             <div className="p-6">
               {/* Step indicator */}
               <div className="mb-4 flex items-center justify-between">
-                <span className="font-medium uppercase tracking-widest text-muted-foreground" style={{ fontSize: "22px" }}>
+                <span className="font-medium uppercase tracking-widest text-muted-foreground text-[17px] md:text-[22px]">
                   Step {step + 1} of {totalSteps}
                 </span>
                 <div className="flex gap-1">
@@ -210,10 +210,10 @@ export function Hero() {
               {/* Step 0: Name */}
               {step === 0 && (
                 <>
-                  <h3 className="font-bold text-foreground" style={{ fontSize: "26px" }}>
+                  <h3 className="font-bold text-foreground text-[21px] md:text-[26px]">
                     {"What's your name?"}
                   </h3>
-                  <p className="mt-1 text-muted-foreground" style={{ fontSize: "22px" }}>
+                  <p className="mt-1 text-muted-foreground text-[17px] md:text-[22px]">
                     {"So we know who we're speaking with"}
                   </p>
                   <input
@@ -221,11 +221,10 @@ export function Hero() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Your full name"
-                    className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none"
-                    style={{ fontSize: "24px" }}
+                    className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none text-[19px] md:text-[24px]"
                   />
                   {errors[0] && (
-                    <p className="mt-2 font-medium text-red-500" style={{ fontSize: "22px" }}>{errors[0]}</p>
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[0]}</p>
                   )}
                 </>
               )}
@@ -233,10 +232,10 @@ export function Hero() {
               {/* Step 1: Email */}
               {step === 1 && (
                 <>
-                  <h3 className="font-bold text-foreground" style={{ fontSize: "26px" }}>
+                  <h3 className="font-bold text-foreground text-[21px] md:text-[26px]">
                     {"What's your email address?"}
                   </h3>
-                  <p className="mt-1 text-muted-foreground" style={{ fontSize: "22px" }}>
+                  <p className="mt-1 text-muted-foreground text-[17px] md:text-[22px]">
                     {"We'll send your eligibility details here"}
                   </p>
                   <input
@@ -244,11 +243,10 @@ export function Hero() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none"
-                    style={{ fontSize: "24px" }}
+                    className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none text-[19px] md:text-[24px]"
                   />
                   {errors[1] && (
-                    <p className="mt-2 font-medium text-red-500" style={{ fontSize: "22px" }}>{errors[1]}</p>
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[1]}</p>
                   )}
                 </>
               )}
@@ -256,10 +254,10 @@ export function Hero() {
               {/* Step 2: Phone */}
               {step === 2 && (
                 <>
-                  <h3 className="font-bold text-foreground" style={{ fontSize: "26px" }}>
+                  <h3 className="font-bold text-foreground text-[21px] md:text-[26px]">
                     {"Best number to reach you?"}
                   </h3>
-                  <p className="mt-1 text-muted-foreground" style={{ fontSize: "22px" }}>
+                  <p className="mt-1 text-muted-foreground text-[17px] md:text-[22px]">
                     {"For a quick follow-up about your eligibility"}
                   </p>
                   <input
@@ -267,11 +265,10 @@ export function Hero() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="(555) 123-4567"
-                    className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none"
-                    style={{ fontSize: "24px" }}
+                    className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none text-[19px] md:text-[24px]"
                   />
                   {errors[2] && (
-                    <p className="mt-2 font-medium text-red-500" style={{ fontSize: "22px" }}>{errors[2]}</p>
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[2]}</p>
                   )}
                 </>
               )}
@@ -281,8 +278,7 @@ export function Hero() {
                 {step > 0 && (
                   <button
                     onClick={() => { setErrors({}); setStep(step - 1) }}
-                    className="flex items-center gap-1 rounded-xl border-2 border-border px-4 py-2.5 font-medium text-foreground transition-colors hover:bg-muted"
-                    style={{ fontSize: "24px" }}
+                    className="flex items-center gap-1 rounded-xl border-2 border-border px-4 py-2.5 font-medium text-foreground transition-colors hover:bg-muted text-[19px] md:text-[24px]"
                   >
                     <ChevronLeft className="size-4" />
                     Back
@@ -291,8 +287,8 @@ export function Hero() {
                 {step < 2 ? (
                   <button
                     onClick={validateAndAdvance}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-bold uppercase tracking-wide text-primary-foreground transition-all hover:opacity-90"
-                    style={{ backgroundColor: "#85BF23", fontSize: "24px" }}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-bold uppercase tracking-wide text-primary-foreground transition-all hover:opacity-90 text-[19px] md:text-[24px]"
+                    style={{ backgroundColor: "#85BF23" }}
                   >
                     Next
                     <ChevronRight className="size-4" />
@@ -301,8 +297,8 @@ export function Hero() {
                   <button
                     onClick={validateAndSubmit}
                     disabled={isSubmitting}
-                    className="flex flex-1 items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-bold uppercase tracking-wide text-primary-foreground transition-all hover:opacity-90 disabled:opacity-50"
-                    style={{ backgroundColor: "#85BF23", fontSize: "24px" }}
+                    className="flex flex-1 items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-bold uppercase tracking-wide text-primary-foreground transition-all hover:opacity-90 disabled:opacity-50 text-[19px] md:text-[24px]"
+                    style={{ backgroundColor: "#85BF23" }}
                   >
                     {isSubmitting ? "Submitting..." : "Check Eligibility"}
                     {!isSubmitting && <Send className="size-4" />}
@@ -320,15 +316,15 @@ export function Hero() {
         <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-4 px-6 py-4 sm:flex-row sm:gap-0 sm:divide-x sm:divide-white/20">
           <div className="flex items-center gap-2.5 sm:px-8">
             <CalendarCheck className="size-5 shrink-0" style={{ color: "#C9A84C" }} />
-            <span className="font-medium" style={{ color: "#b0b0b0", fontSize: "24px" }}>0% Down Financing</span>
+            <span className="font-medium text-[19px] md:text-[24px]" style={{ color: "#b0b0b0" }}>0% Down Financing</span>
           </div>
           <div className="flex items-center gap-2.5 sm:px-8">
             <Clock className="size-5 shrink-0" style={{ color: "#C9A84C" }} />
-            <span className="font-medium" style={{ color: "#b0b0b0", fontSize: "24px" }}>Since 2000</span>
+            <span className="font-medium text-[19px] md:text-[24px]" style={{ color: "#b0b0b0" }}>Since 2000</span>
           </div>
           <div className="flex items-center gap-2.5 sm:px-8">
             <MapPin className="size-5 shrink-0" style={{ color: "#C9A84C" }} />
-            <span className="font-medium" style={{ color: "#b0b0b0", fontSize: "24px" }}>All Phoenix & Surrounding Cities</span>
+            <span className="font-medium text-[19px] md:text-[24px]" style={{ color: "#b0b0b0" }}>All Phoenix & Surrounding Cities</span>
           </div>
         </div>
       </div>
