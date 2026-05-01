@@ -110,7 +110,7 @@ export function Hero() {
             Skip the Quotes. Know the Price. <br /> Build the Backyard You Want.
           </h1>
           <p className="mt-3 text-lg font-medium text-background/90">
-            Premium turf, Phoenix pavers, decorative gravel, and curated plants.
+            Premium Turf, Phoenix Pavers, Decorative gravel, and Curated plants.
           </p>
           <div className="mt-6 flex flex-col gap-3">
             <div className="flex items-center gap-2.5">
