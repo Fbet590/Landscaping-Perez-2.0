@@ -18,19 +18,28 @@ export async function POST(request: Request) {
 
     const webhookUrl = "https://services.leadconnectorhq.com/hooks/5xmJQ9GnZ2epwQjXcomF/webhook-trigger/9d489a0c-0683-4cb0-b02e-51fbeb0cc70b"
 
+    console.log("[v0] Submitting to webhook:", webhookUrl)
+    console.log("[v0] Payload:", JSON.stringify(payload))
+
     const response = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     })
 
+    const responseText = await response.text()
+    console.log("[v0] Webhook response status:", response.status)
+    console.log("[v0] Webhook response:", responseText)
+
     if (!response.ok) {
+      console.error("[v0] Webhook failed with status:", response.status)
       return NextResponse.json(
         { error: "Failed to submit" },
         { status: 502 }
       )
     }
 
+    console.log("[v0] Webhook submission successful!")
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Error submitting to webhook:", error)
