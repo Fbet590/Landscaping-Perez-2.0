@@ -16,15 +16,7 @@ export async function POST(request: Request) {
       tags: ["$7,000 Package Inquiry", "Website Lead"],
     }
 
-    const webhookUrl = process.env.WEBHOOK_URL
-
-    console.log("[v0] Webhook URL:", webhookUrl)
-    console.log("[v0] Payload being sent:", JSON.stringify(payload, null, 2))
-
-    if (!webhookUrl) {
-      console.warn("[v0] WEBHOOK_URL not set - lead data received but not forwarded:", payload)
-      return NextResponse.json({ success: true, warning: "Webhook not configured" })
-    }
+    const webhookUrl = "https://services.leadconnectorhq.com/hooks/5xmJQ9GnZ2epwQjXcomF/webhook-trigger/9d489a0c-0683-4cb0-b02e-51fbeb0cc70b"
 
     const response = await fetch(webhookUrl, {
       method: "POST",
@@ -32,21 +24,16 @@ export async function POST(request: Request) {
       body: JSON.stringify(payload),
     })
 
-    const responseText = await response.text()
-    console.log("[v0] Webhook response status:", response.status)
-    console.log("[v0] Webhook response body:", responseText)
-
     if (!response.ok) {
-      console.error("[v0] Webhook responded with error status:", response.status, responseText)
       return NextResponse.json(
-        { error: "Failed to submit", details: responseText },
+        { error: "Failed to submit" },
         { status: 502 }
       )
     }
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error("[v0] Error submitting to webhook:", error)
+    console.error("Error submitting to webhook:", error)
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
