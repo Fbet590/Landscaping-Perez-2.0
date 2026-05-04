@@ -23,6 +23,7 @@ export function Hero() {
   }
 
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   async function handleSubmit() {
     setIsSubmitting(true)
@@ -48,11 +49,7 @@ export function Hero() {
             value: "$7,000",
           })
         } catch {}
-        alert("Thank you! We'll be in touch soon.")
-        setStep(0)
-        setName("")
-        setEmail("")
-        setPhone("")
+        setIsSubmitted(true)
       } else {
         alert("Something went wrong. Please try again.")
       }
@@ -194,6 +191,23 @@ export function Hero() {
                 <div className="flex h-48 items-center justify-center">
                   <div className="size-8 animate-spin rounded-full border-4 border-muted border-t-primary" />
                 </div>
+              </div>
+            ) : isSubmitted ? (
+              <div className="p-6 text-center">
+                <div className="flex justify-center mb-4">
+                  <div className="flex size-16 items-center justify-center rounded-full" style={{ backgroundColor: "#85BF23" }}>
+                    <Check className="size-8 text-white" strokeWidth={3} />
+                  </div>
+                </div>
+                <h3 className="font-bold text-foreground text-[24px] md:text-[28px]">
+                  Thank You!
+                </h3>
+                <p className="mt-3 text-muted-foreground leading-relaxed text-[18px] md:text-[22px]">
+                  We&apos;ll be reaching out via text in just a few minutes.
+                </p>
+                <p className="mt-2 font-semibold text-foreground text-[18px] md:text-[22px]">
+                  Keep an eye out!
+                </p>
               </div>
             ) : (
             <div className="p-6">
