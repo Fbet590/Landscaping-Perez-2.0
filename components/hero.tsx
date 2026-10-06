@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Send, Check, CalendarCheck, Clock, MapPin } from "lucide-react"
 import { trackFBEvent } from "./facebook-pixel"
+import { validateName, validateEmail, validatePhone } from "@/lib/validation"
 
 const totalSteps = 3
 
@@ -13,12 +14,12 @@ export function Hero() {
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
 
-  function canAdvance() {
-    switch (step) {
-      case 0: return name.trim() !== ""
-      case 1: return email.trim() !== ""
-      case 2: return phone.trim() !== ""
-      default: return false
+  function getStepError(currentStep: number): string | null {
+    switch (currentStep) {
+      case 0: return validateName(name)
+      case 1: return validateEmail(email)
+      case 2: return validatePhone(phone)
+      default: return "Invalid step"
     }
   }
 
@@ -66,13 +67,9 @@ export function Hero() {
   const [errors, setErrors] = useState<Record<number, string>>({})
 
   function validateAndAdvance() {
-    if (!canAdvance()) {
-      const messages: Record<number, string> = {
-        0: "Please enter your name",
-        1: "Please enter a valid email address",
-        2: "Please enter your phone number",
-      }
-      setErrors({ [step]: messages[step] })
+    const error = getStepError(step)
+    if (error) {
+      setErrors({ [step]: error })
       return
     }
     setErrors({})
@@ -80,8 +77,13 @@ export function Hero() {
   }
 
   function validateAndSubmit() {
-    if (!canAdvance()) {
-      setErrors({ [step]: "Please enter your phone number" })
+    const nameError = getStepError(0)
+    const emailError = getStepError(1)
+    const phoneError = getStepError(2)
+    if (nameError || emailError || phoneError) {
+      const failedStep = nameError ? 0 : emailError ? 1 : 2
+      setErrors({ [failedStep]: (nameError ?? emailError ?? phoneError) as string })
+      setStep(failedStep)
       return
     }
     setErrors({})
@@ -283,8 +285,11 @@ export function Hero() {
                   </p>
                   <input
                     type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    maxLength={17}
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => setPhone(e.target.value.replace(/[^\d\s().+-]/g, ""))}
                     placeholder="(555) 123-4567"
                     className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none text-[19px] md:text-[24px]"
                   />
