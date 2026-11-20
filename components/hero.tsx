@@ -303,7 +303,7 @@ export function Hero() {
               {/* Step 3: Multiple bids */}
               {step === 3 && (
                 <fieldset>
-                  <legend className="font-bold text-foreground text-[21px] md:text-[26px]">
+                  <legend className="font-bold text-foreground text-[24px] md:text-[26px]">
                     Would you like multiple bids for your project?
                   </legend>
                   <p
@@ -333,7 +333,7 @@ export function Hero() {
                             className="size-5 shrink-0"
                             style={{ accentColor: "#85BF23" }}
                           />
-                          <span>{option}</span>
+                          <span className="font-medium">{option}</span>
                         </label>
                       )
                     })}
