@@ -5,7 +5,7 @@ import Image from "next/image"
 import { ChevronLeft, ChevronRight, Send, Check, CalendarCheck, Clock, MapPin } from "lucide-react"
 import { trackFBEvent } from "./facebook-pixel"
 import { validateName, validateEmail, validatePhone } from "@/lib/validation"
-import { MULTIPLE_BIDS_OPTIONS, isMultipleBidsOption, type ProjectAnswer } from "@/lib/lead-form"
+import { MULTIPLE_BIDS_OPTIONS, isMultipleBidsOption } from "@/lib/lead-form"
 
 const totalSteps = 4
 const lastStep = totalSteps - 1
@@ -30,11 +30,6 @@ export function Hero() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
 
-  // Project questions in the order they are asked. The form currently has none
-  // besides contact info, so this is empty; add { label, value } entries here
-  // when project steps are added.
-  const projectAnswers: ProjectAnswer[] = []
-
   async function handleSubmit() {
     setIsSubmitting(true)
     try {
@@ -46,7 +41,6 @@ export function Hero() {
           email,
           phone,
           multipleBids,
-          projectAnswers,
         }),
       })
 
