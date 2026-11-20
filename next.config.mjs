@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // The default .next directory held a corrupted Turbopack dev cache that pegged the
-  // dev server and truncated layout chunks, so the form never hydrated in the preview.
-  distDir: ".next-fresh",
+  // Dev only: the default .next directory held a corrupted Turbopack dev cache that
+  // pegged the dev server and truncated layout chunks. Production builds must keep
+  // .next because Vercel looks for the routes manifest there.
+  distDir: process.env.NODE_ENV === "development" ? ".next-fresh" : ".next",
   typescript: {
     ignoreBuildErrors: true,
   },
