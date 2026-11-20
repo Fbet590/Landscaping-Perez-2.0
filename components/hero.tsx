@@ -306,8 +306,8 @@ export function Hero() {
                   <legend className="font-bold text-foreground text-[21px] md:text-[26px]">
                     Would you like multiple bids for your project?
                   </legend>
-                  <p className="mt-1 font-normal text-muted-foreground text-[17px] md:text-[22px]">
-                    Prices differ between companies. Comparing helps you choose right.
+                  <p className="mt-1 font-medium text-muted-foreground text-[17px] md:text-[22px]">
+                    Prices can differ between companies. Comparing always helps.
                   </p>
                   <div className="mt-5 flex flex-col gap-3">
                     {MULTIPLE_BIDS_OPTIONS.map((option) => {
