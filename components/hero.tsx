@@ -5,20 +5,24 @@ import Image from "next/image"
 import { ChevronLeft, ChevronRight, Send, Check, CalendarCheck, Clock, MapPin } from "lucide-react"
 import { trackFBEvent } from "./facebook-pixel"
 import { validateName, validateEmail, validatePhone } from "@/lib/validation"
+import { MULTIPLE_BIDS_OPTIONS, isMultipleBidsOption } from "@/lib/lead-form"
 
-const totalSteps = 3
+const totalSteps = 4
+const lastStep = totalSteps - 1
 
 export function Hero() {
   const [step, setStep] = useState(0)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
+  const [multipleBids, setMultipleBids] = useState("")
 
   function getStepError(currentStep: number): string | null {
     switch (currentStep) {
       case 0: return validateName(name)
       case 1: return validateEmail(email)
       case 2: return validatePhone(phone)
+      case 3: return isMultipleBidsOption(multipleBids) ? null : "Please choose an option"
       default: return "Invalid step"
     }
   }
@@ -33,12 +37,10 @@ export function Hero() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          projects: ["$7,000 Flat-Rate Package Inquiry"],
-          budget: "$7,000",
-          flexibility: "N/A",
           name,
           email,
           phone,
+          multipleBids,
         }),
       })
 
@@ -77,14 +79,13 @@ export function Hero() {
   }
 
   function validateAndSubmit() {
-    const nameError = getStepError(0)
-    const emailError = getStepError(1)
-    const phoneError = getStepError(2)
-    if (nameError || emailError || phoneError) {
-      const failedStep = nameError ? 0 : emailError ? 1 : 2
-      setErrors({ [failedStep]: (nameError ?? emailError ?? phoneError) as string })
-      setStep(failedStep)
-      return
+    for (let s = 0; s <= lastStep; s++) {
+      const error = getStepError(s)
+      if (error) {
+        setErrors({ [s]: error })
+        setStep(s)
+        return
+      }
     }
     setErrors({})
     handleSubmit()
@@ -299,6 +300,50 @@ export function Hero() {
                 </>
               )}
 
+              {/* Step 3: Multiple bids */}
+              {step === 3 && (
+                <fieldset>
+                  <legend className="font-bold text-foreground text-[21px] md:text-[26px]">
+                    Would you like multiple bids for your project?
+                  </legend>
+                  <p
+                    className="mt-3 rounded-lg px-4 py-3 font-medium leading-snug text-[16px] md:text-[20px]"
+                    style={{ backgroundColor: "#FEF3C7", borderLeft: "4px solid #F59E0B", color: "#92400E" }}
+                  >
+                    Prices can differ between companies. Comparing helps you find the best fit for your budget.
+                  </p>
+                  <div className="mt-5 flex flex-col gap-3">
+                    {MULTIPLE_BIDS_OPTIONS.map((option) => {
+                      const selected = multipleBids === option
+                      return (
+                        <label
+                          key={option}
+                          className="flex cursor-pointer items-center gap-3 rounded-xl border-2 px-4 py-3 text-foreground transition-colors has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-ring text-[17px] md:text-[22px]"
+                          style={{
+                            borderColor: selected ? "#85BF23" : "var(--border)",
+                            backgroundColor: selected ? "#f5f9f0" : undefined,
+                          }}
+                        >
+                          <input
+                            type="radio"
+                            name="multipleBids"
+                            value={option}
+                            checked={selected}
+                            onChange={() => { setMultipleBids(option); setErrors({}) }}
+                            className="size-5 shrink-0"
+                            style={{ accentColor: "#85BF23" }}
+                          />
+                          <span>{option}</span>
+                        </label>
+                      )
+                    })}
+                  </div>
+                  {errors[3] && (
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[3]}</p>
+                  )}
+                </fieldset>
+              )}
+
               {/* Navigation */}
               <div className={`mt-6 flex gap-3 ${step > 0 ? "justify-between" : "justify-end"}`}>
                 {step > 0 && (
@@ -310,7 +355,7 @@ export function Hero() {
                     Back
                   </button>
                 )}
-                {step < 2 ? (
+                {step < lastStep ? (
                   <button
                     onClick={validateAndAdvance}
                     className="flex flex-1 items-center justify-center gap-2 rounded-xl px-5 py-2.5 font-bold uppercase tracking-wide text-primary-foreground transition-all hover:opacity-90 text-[19px] md:text-[24px]"
