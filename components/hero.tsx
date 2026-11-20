@@ -306,7 +306,10 @@ export function Hero() {
                   <legend className="font-bold text-foreground text-[21px] md:text-[26px]">
                     Would you like multiple bids for your project?
                   </legend>
-                  <p className="mt-1 font-medium text-muted-foreground text-[17px] md:text-[22px]">
+                  <p
+                    className="mt-3 rounded-lg px-4 py-3 font-medium leading-snug text-[16px] md:text-[20px]"
+                    style={{ backgroundColor: "#FEF3C7", borderLeft: "4px solid #F59E0B", color: "#92400E" }}
+                  >
                     Prices can differ between companies. Comparing helps you find the best fit for your budget.
                   </p>
                   <div className="mt-5 flex flex-col gap-3">
