@@ -307,7 +307,7 @@ export function Hero() {
                     Would you like multiple bids for your project?
                   </legend>
                   <p className="mt-1 font-medium text-muted-foreground text-[17px] md:text-[22px]">
-                    Prices can differ between companies. Comparing always helps.
+                    Prices can differ between companies. Comparing helps you find the best fit for your budget.
                   </p>
                   <div className="mt-5 flex flex-col gap-3">
                     {MULTIPLE_BIDS_OPTIONS.map((option) => {
