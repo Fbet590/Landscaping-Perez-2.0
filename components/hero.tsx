@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, Send, Check, CalendarCheck, Clock, MapPin } from "lucide-react"
 import { trackFBEvent } from "./facebook-pixel"
@@ -41,6 +41,8 @@ export function Hero() {
           email,
           phone,
           multipleBids,
+          website: honeypot,
+          elapsedMs: Date.now() - formStartedAt.current,
         }),
       })
 
@@ -54,7 +56,15 @@ export function Hero() {
         } catch {}
         setIsSubmitted(true)
       } else {
-        alert("Something went wrong. Please try again.")
+        const data = await res.json().catch(() => null)
+        const fieldStep: Record<string, number> = { name: 0, email: 1, phone: 2 }
+        const errorStep = typeof data?.field === "string" ? fieldStep[data.field] : undefined
+        if (res.status === 400 && errorStep !== undefined && typeof data.error === "string") {
+          setErrors({ [errorStep]: data.error })
+          setStep(errorStep)
+        } else {
+          alert(typeof data?.error === "string" && res.status === 429 ? data.error : "Something went wrong. Please try again.")
+        }
       }
     } catch {
       alert("Something went wrong. Please try again.")
@@ -64,7 +74,12 @@ export function Hero() {
   }
 
   const [mounted, setMounted] = useState(false)
-  useEffect(() => { setMounted(true) }, [])
+  const [honeypot, setHoneypot] = useState("")
+  const formStartedAt = useRef(0)
+  useEffect(() => {
+    formStartedAt.current = Date.now()
+    setMounted(true)
+  }, [])
 
   const [errors, setErrors] = useState<Record<number, string>>({})
 
@@ -214,6 +229,21 @@ export function Hero() {
               </div>
             ) : (
             <div className="p-6">
+              {/* Honeypot: invisible to people, filled in by bots */}
+              <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
+                <label>
+                  Leave this field empty
+                  <input
+                    type="text"
+                    name="hp-field"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </label>
+              </div>
+
               {/* Step indicator */}
               <div className="mb-4 flex items-center justify-between">
                 <span className="font-medium uppercase tracking-widest text-muted-foreground text-[17px] md:text-[22px]">
