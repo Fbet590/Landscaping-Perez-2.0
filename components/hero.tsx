@@ -9,26 +9,28 @@ import {
   BUDGET_OPTIONS,
   FLEXIBILITY_OPTIONS,
   MULTIPLE_BIDS_OPTIONS,
+  PROJECT_OPTIONS,
   isBudgetOption,
   isFlexibilityOption,
   isMultipleBidsOption,
 } from "@/lib/lead-form"
 
-const STEP = { budget: 0, flexibility: 1, name: 2, email: 3, phone: 4, bids: 5 } as const
-const totalSteps = 6
+const STEP = { projects: 0, budget: 1, flexibility: 2, name: 3, email: 4, phone: 5, bids: 6 } as const
+const totalSteps = 7
 const lastStep = totalSteps - 1
 
 type OptionButtonsProps = {
   options: readonly string[]
-  value: string
+  isSelected: (option: string) => boolean
   onSelect: (option: string) => void
+  multiple?: boolean
 }
 
-function OptionButtons({ options, value, onSelect }: OptionButtonsProps) {
+function OptionButtons({ options, isSelected, onSelect, multiple = false }: OptionButtonsProps) {
   return (
     <div className="mt-5 flex flex-col gap-3">
       {options.map((option) => {
-        const selected = value === option
+        const selected = isSelected(option)
         return (
           <button
             key={option}
@@ -43,10 +45,14 @@ function OptionButtons({ options, value, onSelect }: OptionButtonsProps) {
           >
             <span
               aria-hidden="true"
-              className="flex size-5 shrink-0 items-center justify-center rounded-full border-2"
-              style={{ borderColor: selected ? "#85BF23" : "var(--border)" }}
+              className={`flex size-5 shrink-0 items-center justify-center border-2 ${multiple ? "rounded-md" : "rounded-full"}`}
+              style={{
+                borderColor: selected ? "#85BF23" : "var(--border)",
+                backgroundColor: multiple && selected ? "#85BF23" : undefined,
+              }}
             >
-              {selected && <span className="size-2.5 rounded-full" style={{ backgroundColor: "#85BF23" }} />}
+              {selected && multiple && <Check className="size-3.5 text-white" strokeWidth={3} />}
+              {selected && !multiple && <span className="size-2.5 rounded-full" style={{ backgroundColor: "#85BF23" }} />}
             </span>
             <span className="font-medium">{option}</span>
           </button>
@@ -57,7 +63,8 @@ function OptionButtons({ options, value, onSelect }: OptionButtonsProps) {
 }
 
 export function Hero() {
-  const [step, setStep] = useState<number>(STEP.budget)
+  const [step, setStep] = useState<number>(STEP.projects)
+  const [projects, setProjects] = useState<string[]>([])
   const [budget, setBudget] = useState("")
   const [flexibility, setFlexibility] = useState("")
   const [name, setName] = useState("")
@@ -67,6 +74,7 @@ export function Hero() {
 
   function getStepError(currentStep: number): string | null {
     switch (currentStep) {
+      case STEP.projects: return projects.length > 0 ? null : "Please select at least one option"
       case STEP.budget: return isBudgetOption(budget) ? null : "Please select a budget range"
       case STEP.flexibility: return isFlexibilityOption(flexibility) ? null : "Please select a flexibility option"
       case STEP.name: return validateName(name)
@@ -87,6 +95,7 @@ export function Hero() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          projects,
           budget,
           flexibility,
           name,
@@ -110,6 +119,7 @@ export function Hero() {
       } else {
         const data = await res.json().catch(() => null)
         const fieldStep: Record<string, number> = {
+          projects: STEP.projects,
           budget: STEP.budget,
           flexibility: STEP.flexibility,
           name: STEP.name,
@@ -304,20 +314,46 @@ export function Hero() {
 
               {/* Step indicator */}
               <div className="mb-4 flex items-center justify-between">
-                <span className="font-medium uppercase tracking-widest text-muted-foreground text-[17px] md:text-[22px]">
+                <span className="whitespace-nowrap font-medium uppercase tracking-widest text-muted-foreground text-[17px] md:text-[22px]">
                   Step {step + 1} of {totalSteps}
                 </span>
                 <div className="flex gap-1">
                   {Array.from({ length: totalSteps }).map((_, i) => (
                     <div
                       key={i}
-                      className={`h-1.5 w-5 rounded-full transition-colors ${
+                      className={`h-1.5 w-2.5 rounded-full transition-colors md:w-4 ${
                         i <= step ? "bg-primary" : "bg-muted"
                       }`}
                     />
                   ))}
                 </div>
               </div>
+
+              {/* Project options */}
+              {step === STEP.projects && (
+                <>
+                  <h3 className="font-bold text-foreground text-[21px] md:text-[26px]">
+                    What would you like included in your project?
+                  </h3>
+                  <p className="mt-1 text-muted-foreground text-[17px] md:text-[22px]">
+                    Select all that apply
+                  </p>
+                  <OptionButtons
+                    multiple
+                    options={PROJECT_OPTIONS}
+                    isSelected={(option) => projects.includes(option)}
+                    onSelect={(option) => {
+                      setProjects((current) =>
+                        current.includes(option) ? current.filter((o) => o !== option) : [...current, option],
+                      )
+                      setErrors({})
+                    }}
+                  />
+                  {errors[STEP.projects] && (
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[STEP.projects]}</p>
+                  )}
+                </>
+              )}
 
               {/* Budget */}
               {step === STEP.budget && (
@@ -330,7 +366,7 @@ export function Hero() {
                   </p>
                   <OptionButtons
                     options={BUDGET_OPTIONS}
-                    value={budget}
+                    isSelected={(option) => budget === option}
                     onSelect={(option) => { setBudget(option); setErrors({}) }}
                   />
                   {errors[STEP.budget] && (
@@ -350,7 +386,7 @@ export function Hero() {
                   </p>
                   <OptionButtons
                     options={FLEXIBILITY_OPTIONS}
-                    value={flexibility}
+                    isSelected={(option) => flexibility === option}
                     onSelect={(option) => { setFlexibility(option); setErrors({}) }}
                   />
                   {errors[STEP.flexibility] && (

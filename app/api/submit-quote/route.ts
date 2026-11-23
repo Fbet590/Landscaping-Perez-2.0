@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { promises as dns } from "node:dns"
 import { normalizePhone, validateEmail, validateName, validatePhone } from "@/lib/validation"
-import { isBudgetOption, isFlexibilityOption, isMultipleBidsOption } from "@/lib/lead-form"
+import { isBudgetOption, isFlexibilityOption, isMultipleBidsOption, parseProjectOptions } from "@/lib/lead-form"
 
 export const runtime = "nodejs"
 
@@ -58,7 +58,7 @@ async function domainCanReceiveMail(domain: string): Promise<boolean> {
   }
 }
 
-function invalid(field: "budget" | "flexibility" | "name" | "email" | "phone", error: string) {
+function invalid(field: "projects" | "budget" | "flexibility" | "name" | "email" | "phone", error: string) {
   return NextResponse.json({ error, field }, { status: 400 })
 }
 
@@ -83,6 +83,8 @@ export async function POST(request: Request) {
     const email = typeof body.email === "string" ? body.email.trim() : ""
     const rawPhone = typeof body.phone === "string" ? body.phone : ""
 
+    const projects = parseProjectOptions(body.projects)
+    if (!projects) return invalid("projects", "Please select at least one option")
     if (!isBudgetOption(body.budget)) return invalid("budget", "Please select a budget range")
     if (!isFlexibilityOption(body.flexibility)) {
       return invalid("flexibility", "Please select a flexibility option")
@@ -114,6 +116,7 @@ export async function POST(request: Request) {
       name,
       email,
       phone: `+1${digits}`,
+      projects: projects.join(", "),
       budget: body.budget,
       flexibility: body.flexibility,
       multipleBids: body.multipleBids,

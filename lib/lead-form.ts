@@ -3,6 +3,22 @@ export const MULTIPLE_BIDS_OPTIONS = [
   "No, I only want a bid from 1 company",
 ] as const
 
+export const PROJECT_OPTIONS = [
+  "Turf",
+  "Pavers",
+  "Drip Irrigation",
+  "Decorative Gravel/Rock",
+  "Plants",
+] as const
+
+// Returns the chosen options in menu order, or null if the value is empty or has anything unexpected.
+export function parseProjectOptions(value: unknown): string[] | null {
+  if (!Array.isArray(value) || value.length === 0) return null
+  const allowed = PROJECT_OPTIONS as readonly string[]
+  if (!value.every((v) => typeof v === "string" && allowed.includes(v))) return null
+  return PROJECT_OPTIONS.filter((option) => value.includes(option))
+}
+
 export const BUDGET_OPTIONS = [
   "$10,000 - $15,000",
   "$15,000 - $25,000",
