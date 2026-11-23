@@ -62,7 +62,10 @@ async function domainCanReceiveMail(domain: string): Promise<boolean> {
   }
 }
 
-function invalid(field: "projects" | "budget" | "flexibility" | "name" | "email" | "phone", error: string) {
+function invalid(
+  field: "projects" | "budget" | "flexibility" | "name" | "email" | "phone" | "bids",
+  error: string,
+) {
   return NextResponse.json({ error, field }, { status: 400 })
 }
 
@@ -102,7 +105,7 @@ export async function POST(request: Request) {
     if (phoneError) return invalid("phone", phoneError)
 
     if (!isMultipleBidsOption(body.multipleBids)) {
-      return NextResponse.json({ error: "Please choose a bid preference" }, { status: 400 })
+      return invalid("bids", "Please choose an option")
     }
 
     const emailDomain = email.split("@")[1].toLowerCase()
