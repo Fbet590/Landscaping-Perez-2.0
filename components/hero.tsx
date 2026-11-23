@@ -125,6 +125,7 @@ export function Hero() {
           name: STEP.name,
           email: STEP.email,
           phone: STEP.phone,
+          bids: STEP.bids,
         }
         const errorStep = typeof data?.field === "string" ? fieldStep[data.field] : undefined
         if (res.status === 400 && errorStep !== undefined && typeof data.error === "string") {
