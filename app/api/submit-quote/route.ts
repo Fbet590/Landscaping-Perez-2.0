@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server"
 import { promises as dns } from "node:dns"
 import { normalizePhone, validateEmail, validateName, validatePhone } from "@/lib/validation"
-import { isBudgetOption, isFlexibilityOption, isMultipleBidsOption, parseProjectOptions } from "@/lib/lead-form"
+import {
+  buildProjectDetails,
+  isBudgetOption,
+  isFlexibilityOption,
+  isMultipleBidsOption,
+  parseProjectOptions,
+} from "@/lib/lead-form"
 
 export const runtime = "nodejs"
-
-const PROJECT_DETAILS = "Options: Turf, Pavers, Gravel, Plants\nBudget: $7,000 - $10,000"
 
 const WEBHOOK_URL =
   "https://services.leadconnectorhq.com/hooks/5xmJQ9GnZ2epwQjXcomF/webhook-trigger/9d489a0c-0683-4cb0-b02e-51fbeb0cc70b"
@@ -120,7 +124,11 @@ export async function POST(request: Request) {
       budget: body.budget,
       flexibility: body.flexibility,
       multipleBids: body.multipleBids,
-      projectDetails: PROJECT_DETAILS,
+      projectDetails: buildProjectDetails({
+        projects,
+        budget: body.budget,
+        flexibility: body.flexibility,
+      }),
       source: "Landscaping Perez - $7,000 Package",
       tags: ["$7,000 Package Inquiry", "Website Lead"],
     }

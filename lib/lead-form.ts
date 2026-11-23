@@ -19,6 +19,19 @@ export function parseProjectOptions(value: unknown): string[] | null {
   return PROJECT_OPTIONS.filter((option) => value.includes(option))
 }
 
+// One "Label: value" line per answer, in the order the questions are asked.
+// Empty answers are left out so a label never appears without a value.
+export function buildProjectDetails(answers: { projects: string[]; budget: string; flexibility: string }): string {
+  return [
+    ["Options", answers.projects.join(", ")],
+    ["Budget", answers.budget],
+    ["Budget Flexibility", answers.flexibility],
+  ]
+    .filter(([, value]) => value.trim() !== "")
+    .map(([label, value]) => `${label}: ${value}`)
+    .join("\n")
+}
+
 export const BUDGET_OPTIONS = [
   "$10,000 - $15,000",
   "$15,000 - $25,000",
