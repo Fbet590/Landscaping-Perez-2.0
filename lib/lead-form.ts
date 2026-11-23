@@ -3,6 +3,27 @@ export const MULTIPLE_BIDS_OPTIONS = [
   "No, I only want a bid from 1 company",
 ] as const
 
+export const BUDGET_OPTIONS = [
+  "$10,000 - $15,000",
+  "$15,000 - $25,000",
+  "$25,000 - $40,000",
+  "$40,000 +",
+] as const
+
+export const FLEXIBILITY_OPTIONS = [
+  "Yes, I prefer premium quality even if the cost increases slightly",
+  "Maybe, depends on the options presented",
+  "No, I have a fixed budget",
+] as const
+
+export function isBudgetOption(value: unknown): value is (typeof BUDGET_OPTIONS)[number] {
+  return typeof value === "string" && (BUDGET_OPTIONS as readonly string[]).includes(value)
+}
+
+export function isFlexibilityOption(value: unknown): value is (typeof FLEXIBILITY_OPTIONS)[number] {
+  return typeof value === "string" && (FLEXIBILITY_OPTIONS as readonly string[]).includes(value)
+}
+
 export type MultipleBidsOption = (typeof MULTIPLE_BIDS_OPTIONS)[number]
 
 export function isMultipleBidsOption(value: unknown): value is MultipleBidsOption {

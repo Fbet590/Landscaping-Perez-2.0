@@ -5,13 +5,61 @@ import Image from "next/image"
 import { ChevronLeft, ChevronRight, Send, Check, CalendarCheck, Clock, MapPin } from "lucide-react"
 import { trackFBEvent } from "./facebook-pixel"
 import { validateName, validateEmail, validatePhone } from "@/lib/validation"
-import { MULTIPLE_BIDS_OPTIONS, isMultipleBidsOption } from "@/lib/lead-form"
+import {
+  BUDGET_OPTIONS,
+  FLEXIBILITY_OPTIONS,
+  MULTIPLE_BIDS_OPTIONS,
+  isBudgetOption,
+  isFlexibilityOption,
+  isMultipleBidsOption,
+} from "@/lib/lead-form"
 
-const totalSteps = 4
+const STEP = { budget: 0, flexibility: 1, name: 2, email: 3, phone: 4, bids: 5 } as const
+const totalSteps = 6
 const lastStep = totalSteps - 1
 
+type OptionButtonsProps = {
+  options: readonly string[]
+  value: string
+  onSelect: (option: string) => void
+}
+
+function OptionButtons({ options, value, onSelect }: OptionButtonsProps) {
+  return (
+    <div className="mt-5 flex flex-col gap-3">
+      {options.map((option) => {
+        const selected = value === option
+        return (
+          <button
+            key={option}
+            type="button"
+            aria-pressed={selected}
+            onClick={() => onSelect(option)}
+            className="flex w-full cursor-pointer items-center gap-3 rounded-xl border-2 px-4 py-3 text-left text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-[17px] md:text-[22px]"
+            style={{
+              borderColor: selected ? "#85BF23" : "var(--border)",
+              backgroundColor: selected ? "#f5f9f0" : undefined,
+            }}
+          >
+            <span
+              aria-hidden="true"
+              className="flex size-5 shrink-0 items-center justify-center rounded-full border-2"
+              style={{ borderColor: selected ? "#85BF23" : "var(--border)" }}
+            >
+              {selected && <span className="size-2.5 rounded-full" style={{ backgroundColor: "#85BF23" }} />}
+            </span>
+            <span className="font-medium">{option}</span>
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 export function Hero() {
-  const [step, setStep] = useState(0)
+  const [step, setStep] = useState<number>(STEP.budget)
+  const [budget, setBudget] = useState("")
+  const [flexibility, setFlexibility] = useState("")
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [phone, setPhone] = useState("")
@@ -19,10 +67,12 @@ export function Hero() {
 
   function getStepError(currentStep: number): string | null {
     switch (currentStep) {
-      case 0: return validateName(name)
-      case 1: return validateEmail(email)
-      case 2: return validatePhone(phone)
-      case 3: return isMultipleBidsOption(multipleBids) ? null : "Please choose an option"
+      case STEP.budget: return isBudgetOption(budget) ? null : "Please select a budget range"
+      case STEP.flexibility: return isFlexibilityOption(flexibility) ? null : "Please select a flexibility option"
+      case STEP.name: return validateName(name)
+      case STEP.email: return validateEmail(email)
+      case STEP.phone: return validatePhone(phone)
+      case STEP.bids: return isMultipleBidsOption(multipleBids) ? null : "Please choose an option"
       default: return "Invalid step"
     }
   }
@@ -37,6 +87,8 @@ export function Hero() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          budget,
+          flexibility,
           name,
           email,
           phone,
@@ -57,7 +109,13 @@ export function Hero() {
         setIsSubmitted(true)
       } else {
         const data = await res.json().catch(() => null)
-        const fieldStep: Record<string, number> = { name: 0, email: 1, phone: 2 }
+        const fieldStep: Record<string, number> = {
+          budget: STEP.budget,
+          flexibility: STEP.flexibility,
+          name: STEP.name,
+          email: STEP.email,
+          phone: STEP.phone,
+        }
         const errorStep = typeof data?.field === "string" ? fieldStep[data.field] : undefined
         if (res.status === 400 && errorStep !== undefined && typeof data.error === "string") {
           setErrors({ [errorStep]: data.error })
@@ -261,8 +319,48 @@ export function Hero() {
                 </div>
               </div>
 
-              {/* Step 0: Name */}
-              {step === 0 && (
+              {/* Budget */}
+              {step === STEP.budget && (
+                <>
+                  <h3 className="font-bold text-foreground text-[21px] md:text-[26px]">
+                    {"What's your approximate budget?"}
+                  </h3>
+                  <p className="mt-1 text-muted-foreground text-[17px] md:text-[22px]">
+                    Select the range that fits your project
+                  </p>
+                  <OptionButtons
+                    options={BUDGET_OPTIONS}
+                    value={budget}
+                    onSelect={(option) => { setBudget(option); setErrors({}) }}
+                  />
+                  {errors[STEP.budget] && (
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[STEP.budget]}</p>
+                  )}
+                </>
+              )}
+
+              {/* Budget flexibility */}
+              {step === STEP.flexibility && (
+                <>
+                  <h3 className="font-bold text-foreground text-[21px] md:text-[26px]">
+                    Are you flexible with your budget?
+                  </h3>
+                  <p className="mt-1 text-muted-foreground text-[17px] md:text-[22px]">
+                    To guarantee premium-quality materials &amp; workmanship
+                  </p>
+                  <OptionButtons
+                    options={FLEXIBILITY_OPTIONS}
+                    value={flexibility}
+                    onSelect={(option) => { setFlexibility(option); setErrors({}) }}
+                  />
+                  {errors[STEP.flexibility] && (
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[STEP.flexibility]}</p>
+                  )}
+                </>
+              )}
+
+              {/* Name */}
+              {step === STEP.name && (
                 <>
                   <h3 className="font-bold text-foreground text-[21px] md:text-[26px]">
                     {"What's your name?"}
@@ -277,14 +375,14 @@ export function Hero() {
                     placeholder="Your full name"
                     className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none text-[19px] md:text-[24px]"
                   />
-                  {errors[0] && (
-                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[0]}</p>
+                  {errors[STEP.name] && (
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[STEP.name]}</p>
                   )}
                 </>
               )}
 
-              {/* Step 1: Email */}
-              {step === 1 && (
+              {/* Email */}
+              {step === STEP.email && (
                 <>
                   <h3 className="font-bold text-foreground text-[21px] md:text-[26px]">
                     {"What's your email address?"}
@@ -299,14 +397,14 @@ export function Hero() {
                     placeholder="you@example.com"
                     className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none text-[19px] md:text-[24px]"
                   />
-                  {errors[1] && (
-                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[1]}</p>
+                  {errors[STEP.email] && (
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[STEP.email]}</p>
                   )}
                 </>
               )}
 
-              {/* Step 2: Phone */}
-              {step === 2 && (
+              {/* Phone */}
+              {step === STEP.phone && (
                 <>
                   <h3 className="font-bold text-foreground text-[21px] md:text-[26px]">
                     {"Best number to reach you?"}
@@ -324,14 +422,14 @@ export function Hero() {
                     placeholder="(555) 123-4567"
                     className="mt-5 w-full rounded-xl border-2 border-border bg-background px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors focus:border-primary focus:outline-none text-[19px] md:text-[24px]"
                   />
-                  {errors[2] && (
-                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[2]}</p>
+                  {errors[STEP.phone] && (
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[STEP.phone]}</p>
                   )}
                 </>
               )}
 
-              {/* Step 3: Multiple bids */}
-              {step === 3 && (
+              {/* Multiple bids */}
+              {step === STEP.bids && (
                 <fieldset>
                   <legend className="font-bold text-foreground text-[24px] md:text-[26px]">
                     Would you like multiple bids for your project?
@@ -368,8 +466,8 @@ export function Hero() {
                       )
                     })}
                   </div>
-                  {errors[3] && (
-                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[3]}</p>
+                  {errors[STEP.bids] && (
+                    <p className="mt-2 font-medium text-red-500 text-[17px] md:text-[22px]">{errors[STEP.bids]}</p>
                   )}
                 </fieldset>
               )}

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { promises as dns } from "node:dns"
 import { normalizePhone, validateEmail, validateName, validatePhone } from "@/lib/validation"
-import { isMultipleBidsOption } from "@/lib/lead-form"
+import { isBudgetOption, isFlexibilityOption, isMultipleBidsOption } from "@/lib/lead-form"
 
 export const runtime = "nodejs"
 
@@ -58,7 +58,7 @@ async function domainCanReceiveMail(domain: string): Promise<boolean> {
   }
 }
 
-function invalid(field: "name" | "email" | "phone", error: string) {
+function invalid(field: "budget" | "flexibility" | "name" | "email" | "phone", error: string) {
   return NextResponse.json({ error, field }, { status: 400 })
 }
 
@@ -82,6 +82,11 @@ export async function POST(request: Request) {
     const name = typeof body.name === "string" ? body.name.trim() : ""
     const email = typeof body.email === "string" ? body.email.trim() : ""
     const rawPhone = typeof body.phone === "string" ? body.phone : ""
+
+    if (!isBudgetOption(body.budget)) return invalid("budget", "Please select a budget range")
+    if (!isFlexibilityOption(body.flexibility)) {
+      return invalid("flexibility", "Please select a flexibility option")
+    }
 
     const nameError = validateName(name)
     if (nameError) return invalid("name", nameError)
@@ -109,6 +114,8 @@ export async function POST(request: Request) {
       name,
       email,
       phone: `+1${digits}`,
+      budget: body.budget,
+      flexibility: body.flexibility,
       multipleBids: body.multipleBids,
       projectDetails: PROJECT_DETAILS,
       source: "Landscaping Perez - $7,000 Package",
